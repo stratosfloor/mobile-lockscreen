@@ -1,0 +1,9 @@
+.container {
+	background-color: #0d0d0f;
+	margin: 2rem 1rem;
+	font-size: 3rem;
+	color: white;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}

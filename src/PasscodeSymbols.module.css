@@ -1,0 +1,16 @@
+.container {
+	position: relative;
+	color: #fff;
+	text-align: center;
+	font-size: 1.2rem;
+	margin-top: 2rem;
+	color: #a8a7a7;
+	text-align: center;
+	margin-top: 1rem;
+	font-size: 3rem;
+	height: 55px;
+}
+
+span.pressed {
+	color: #fff;
+}

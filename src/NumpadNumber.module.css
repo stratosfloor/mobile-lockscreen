@@ -1,0 +1,22 @@
+.container {
+	color: #fff;
+	background-color: #343434;
+	display: flex;
+	width: 4rem;
+	height: 4rem;
+	margin: 0.2rem;
+	padding: 0.5rem;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid black;
+	border-radius: 50%;
+}
+
+.container:hover {
+	cursor: pointer;
+	background-color: #505050;
+}
+.container:active {
+	background-color: #777777;
+}
