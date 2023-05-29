@@ -4,55 +4,36 @@ import PasscodeSymbols from './PasscodeSymbols';
 import Numpad from './Numpad';
 
 const passcode = '1337';
+type States = 'typing' | 'error' | 'signedin';
 
 function App() {
-	const [signedIn, setSignedIn] = useState(false);
+	const [passcodeState, setPasscodeState] = useState<States>('typing');
 	const [pressedNumbers, setPressedNumber] = useState<number[]>([]);
-	const [error, setError] = useState<boolean>(false);
 
 	const handleClick = (num: number) => {
-		if (pressedNumbers.length < passcode.length) {
-			setPressedNumber((current) => [...current, num]);
-		} else {
-			setPressedNumber((current) => [
-				...current.slice(-(passcode.length - 1)),
-				num,
-			]);
-		}
+		setPressedNumber((current) => [...current, num]);
 	};
 
 	useEffect(() => {
 		if (pressedNumbers.length === 1) {
-			setError(false);
+			setPasscodeState('typing');
 		}
-		if (pressedNumbers.length === passcode.length) {
-			if (pressedNumbers.join('') === passcode) {
-				console.log('Correkt');
-				setSignedIn(true);
-			} else {
-				console.log('Incorrect');
-				setError(true);
-				setTimeout(() => {
-					setPressedNumber([]);
-				}, 1000);
-				setTimeout(() => {
-					setError(false);
-				}, 200);
-			}
+		if (pressedNumbers.length !== passcode.length) return;
+
+		if (pressedNumbers.join('') === passcode) {
+			setPasscodeState('signedin');
+		} else {
+			setPasscodeState('error');
+			setTimeout(() => {
+				setPressedNumber([]);
+			}, 100);
 		}
 	}, [pressedNumbers]);
 
 	return (
 		<div className={styles.container}>
-			<div
-				className={styles.screen}
-				style={
-					error
-						? { backgroundColor: 'firebrick' }
-						: { backgroundColor: '#0d0d0f' }
-				}
-			>
-				{signedIn ? (
+			<div className={styles.screen}>
+				{passcodeState === 'signedin' ? (
 					<div className={styles.success}>Signed in</div>
 				) : (
 					<>
@@ -60,6 +41,7 @@ function App() {
 						<PasscodeSymbols
 							numberOfStars={passcode.length}
 							pressedNumbersLength={pressedNumbers.length}
+							state={passcodeState}
 						/>
 						<Numpad handleClick={handleClick} />
 					</>
