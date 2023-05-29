@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './App.module.css';
 import PasscodeSymbols from './PasscodeSymbols';
 import Numpad from './Numpad';
@@ -11,16 +11,15 @@ function App() {
 	const [pressedNumbers, setPressedNumber] = useState<number[]>([]);
 
 	const handleClick = (num: number) => {
-		setPressedNumber((current) => [...current, num]);
-	};
+		const updatedPressedNumber = [...pressedNumbers, num];
+		setPressedNumber(updatedPressedNumber);
 
-	useEffect(() => {
-		if (pressedNumbers.length === 1) {
+		if (updatedPressedNumber.length === 1) {
 			setPasscodeState('typing');
 		}
-		if (pressedNumbers.length !== passcode.length) return;
+		if (updatedPressedNumber.length !== passcode.length) return;
 
-		if (pressedNumbers.join('') === passcode) {
+		if (updatedPressedNumber.join('') === passcode) {
 			setPasscodeState('signedin');
 		} else {
 			setPasscodeState('error');
@@ -28,7 +27,7 @@ function App() {
 				setPressedNumber([]);
 			}, 100);
 		}
-	}, [pressedNumbers]);
+	};
 
 	return (
 		<div className={styles.container}>
